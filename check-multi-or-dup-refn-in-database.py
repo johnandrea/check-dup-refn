@@ -21,8 +21,8 @@ import sqlite3
 import argparse
 
 
-def show_version():
-    print( '1.1' )
+def get_version():
+    return '1.2'
 
 
 def get_program_options():
@@ -31,7 +31,6 @@ def get_program_options():
     # defaults
     results['item'] = 'refn'
     results['version'] = False
-    results['verbose'] = False
     results['infile'] = None
 
     item_types = ['refn','exid','ssn','afn']
@@ -48,11 +47,10 @@ def get_program_options():
     parser.add_argument( '--verbose', action='store_true', help=arg_help  )
 
     arg_help = 'Show version then exit.'
-    parser.add_argument( '--version', default=results['version'], action='store_true', help=arg_help )
+    parser.add_argument( '--version', action='version', version=get_version() )
 
     args = parser.parse_args()
 
-    results['version'] = args.version
     results['verbose'] = args.verbose
     results['infile'] = args.infile.name
 
@@ -149,10 +147,6 @@ def show_facts( db_file, fact, verbose, names ):
 
 
 options = get_program_options()
-
-if options['version']:
-   show_version()
-   sys.exit(0)
 
 exit_code = 0
 
